@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
     QPushButton
 )    
 
+from wizards import appwizard
 
 
 def SetupApp() -> None:
@@ -20,6 +21,7 @@ def SetupApp() -> None:
     basedir = os.path.dirname(__file__)
     print("Current working folder: ", os.getcwd())
     print("Paths are relative to: ", basedir)
+    print("Application Name: ", vApplicationName)
 
 
 def Main() -> None:
@@ -57,8 +59,11 @@ class MainWindow(QMainWindow):
         
         self.setFixedSize(300, 200)
         
+
+        
     def button_was_clicked(self) -> None:
         print("Button was Clicked")
+        self.AppWizard = appwizard.AppWizard()
         
 
 if __name__ == '__main__':

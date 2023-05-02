@@ -1,0 +1,331 @@
+{
+    "applications": [
+      {
+        "date": "20230401",
+        "version": "1.0.0",
+        "quantity": "35"
+      }
+    ],
+    "apps": [
+      {
+        "AppAlias": "Awk",
+        "AppReal": "awk",
+        "AppVerGet": "-W version",
+        "RegexStart": 5,
+        "RegexEnd": 10,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Bash",
+        "AppReal": "bash",
+        "AppVerGet": "--version",
+        "RegexStart": 17,
+        "RegexEnd": 23,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "CMake",
+        "AppReal": "cmake",
+        "AppVerGet": "--version",
+        "RegexStart": 14,
+        "RegexEnd": 20,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Dia",
+        "AppReal": "dia",
+        "AppVerGet": "-v",
+        "RegexStart": 12,
+        "RegexEnd": 18,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Dot",
+        "AppReal": "dot",
+        "AppVerGet": "-V",
+        "RegexStart": 22,
+        "RegexEnd": 29,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Doxygen",
+        "AppReal": "doxygen",
+        "AppVerGet": "--version",
+        "RegexStart": 0,
+        "RegexEnd": 5,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "GDB",
+        "AppReal": "gdb",
+        "AppVerGet": "--version",
+        "RegexStart": 31,
+        "RegexEnd": 35,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Git",
+        "AppReal": "git",
+        "AppVerGet": "-v",
+        "RegexStart": 12,
+        "RegexEnd": 20,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "GMake",
+        "AppReal": "gmake",
+        "AppVerGet": "--version",
+        "RegexStart": 8,
+        "RegexEnd": 12,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Jq",
+        "AppReal": "jq",
+        "AppVerGet": "--version",
+        "RegexStart": 3,
+        "RegexEnd": 6,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Ninja",
+        "AppReal": "ninja",
+        "AppVerGet": "--version",
+        "RegexStart": 0,
+        "RegexEnd": 6,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Pip3",
+        "AppReal": "pip3",
+        "AppVerGet": "--version",
+        "RegexStart": 4,
+        "RegexEnd": 10,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Python3",
+        "AppReal": "python3",
+        "AppVerGet": "--version",
+        "RegexStart": 7,
+        "RegexEnd": 13,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Qt Designer",
+        "AppReal": "qtdesignstudio",
+        "AppVerGet": "--version",
+        "RegexStart": 35,
+        "RegexEnd": 41,
+        "Type": "Application"
+      },
+      {
+        "AppAlias": "Qt Creator",
+        "AppReal": "qtcreator",
+        "AppVerGet": "--version",
+        "RegexStart": 11,
+        "RegexEnd": 16,
+        "Type": "Application"
+      },
+      {
+        "AppAlias": "Qt",
+        "AppReal": "qtdesignstudio",
+        "AppVerGet": "--version",
+        "RegexStart": 17,
+        "RegexEnd": 23,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Sed",
+        "AppReal": "sed",
+        "AppVerGet": "--version",
+        "RegexStart": 23,
+        "RegexEnd": 26,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "VSCode",
+        "AppReal": "code",
+        "AppVerGet": "--version",
+        "RegexStart": 0,
+        "RegexEnd": 6,
+        "Type": "Application"
+      },
+      {
+        "AppAlias": "Whoami",
+        "AppReal": "whoami",
+        "AppVerGet": "--version",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Whereis",
+        "AppReal": "whereis",
+        "AppVerGet": "-V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Find",
+        "AppReal": "find",
+        "AppVerGet": "--version",
+        "RegexStart": 21,
+        "RegexEnd": 25,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "PyCharm",
+        "AppReal": "pycharm",
+        "AppVerGet": "--version",
+        "RegexStart": 123,
+        "RegexEnd": 128,
+        "Type": "Application"
+      },
+      {
+        "AppAlias": "PhpStorm",
+        "AppReal": "phpstorm",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Application"
+      },
+      {
+        "AppAlias": "UltraEdit",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Application"
+      },
+      {
+        "AppAlias": "UltraCompare",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Application"
+      },
+      {
+        "AppAlias": "Krita",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Application"
+      },
+      {
+        "AppAlias": "Gimp",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Application"
+      },
+      {
+        "AppAlias": "Powershell",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Sudo",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "List",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Copy",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Remove",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Move",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Make Directory",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Disk Free",
+        "AppReal": "df",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Disk Usage",
+        "AppReal": "du",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Cat",
+        "AppReal": "cat",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Grep",
+        "AppReal": "grep",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Git Hub",
+        "AppReal": "gh",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Tool"
+      },
+      {
+        "AppAlias": "Arduino IDE",
+        "AppReal": "whereis",
+        "AppVerGet": "V",
+        "RegexStart": 23,
+        "RegexEnd": 27,
+        "Type": "Application"
+      }
+    ]
+  }
