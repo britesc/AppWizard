@@ -7,6 +7,10 @@ from PySide6.QtWidgets import (
     QFileDialog
 )
 
+from PySide6.QtCore import (
+    QFileInfo
+)
+
 from wizards.appwizard_ui import Ui_dialogAppWizard
 
 class AppWizard(QDialog, Ui_dialogAppWizard):
@@ -28,10 +32,28 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         print("In startApp")
         fileName = QFileDialog.getOpenFileName(self, "Open File",
                                                       "/home",
-                                                      "YAML Files (*.yml *.yaml);; \
-                                                      TOML Files (*.toml);; \
+                                                      "TOML Files (*.toml);; \
+                                                      YAML Files (*.yml *.yaml);; \
                                                       JSON Files (*.jsn  *.json)")    
         print(str(fileName))
         print(f"Location {str(fileName[0])}")
-        print(f"Extension {str(fileName[1])}")
-     
+        print(f"Option {str(fileName[1])}")
+        fi = QFileInfo(str(fileName[0]))
+        ext = fi.completeSuffix().lower()
+        print(f"Extension {ext}")
+        self.adapter = 0
+        match ext:
+            case "toml":
+                self.adapter = 1
+            case "yml":
+                self.adapter = 2
+            case "yaml":
+                self.adapter = 2
+            case "jsn":
+                self.adapter = 3
+            case "json":
+                self.adapter = 3                
+            case _:
+                self.adapter = 0    
+        print(f"Adapter {self.adapter}")
+        
