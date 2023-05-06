@@ -22,7 +22,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         
         self.pushButtonClose.clicked.connect(self.closeApp) # type: ignore
         self.pushButtonStart.clicked.connect(self.startApp) # type: ignore
-        
+
         self.exec()
 
     def closeApp(self) -> None:
@@ -30,30 +30,58 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         
     def startApp(self) -> None:
         print("In startApp")
+        adapterList = [
+            self.adapterNone,
+            self.adapterToml,
+            self.adapterYaml,
+            self.adapterJson
+        ]        
+        
         fileName = QFileDialog.getOpenFileName(self, "Open File",
                                                       "/home",
                                                       "TOML Files (*.toml);; \
                                                       YAML Files (*.yml *.yaml);; \
-                                                      JSON Files (*.jsn  *.json)")    
-        print(str(fileName))
-        print(f"Location {str(fileName[0])}")
-        print(f"Option {str(fileName[1])}")
-        fi = QFileInfo(str(fileName[0]))
+                                                      JSON Files (*.jsn  *.json)")
+        
+        print(str(fileName)) # type: ignore
+        print(f"Location {str(fileName[0])}") # type: ignore
+        print(f"Option {str(fileName[1])}") # type: ignore
+        fi = QFileInfo(str(fileName[0])) # type: ignore
         ext = fi.completeSuffix().lower()
         print(f"Extension {ext}")
-        self.adapter = 0
+        
+        adapter = 0
         match ext:
             case "toml":
-                self.adapter = 1
+                adapter = 1
             case "yml":
-                self.adapter = 2
+                adapter = 2
             case "yaml":
-                self.adapter = 2
+                adapter = 2
             case "jsn":
-                self.adapter = 3
+                adapter = 3
             case "json":
-                self.adapter = 3                
+                adapter = 3                
             case _:
-                self.adapter = 0    
-        print(f"Adapter {self.adapter}")
+                adapter= 0
+                    
+        print(f"Adapter {adapter}")
+        
+        print(f"Calling Adapter {adapterList[adapter]}") # type: ignore
+        
+        adapterList[adapter]() # type: ignore
+        
+        
+        
+    def adapterNone(self) -> None:
+        print("AdapterNone Called")
+    
+    def adapterToml(self) -> None:
+        print("AdapterToml Called")
+    
+    def adapterYaml(self) -> None:
+        print("AdapterYaml Called")
+    
+    def adapterJson(self) -> None:
+        print("AdapterJson Called")       
         
