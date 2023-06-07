@@ -1,0 +1,324 @@
+[[Header]]
+application = "Projectionist"
+date = "20230401"
+version = "1.0.0"
+
+[[App]]
+AppAlias = "Awk"
+AppReal = "awk"
+AppVerGet = "-W version"
+RegexStart = 5
+RegexEnd = 10
+Type = "Tool"
+
+[[App]]
+AppAlias = "Bash"
+AppReal = "bash"
+AppVerGet = "--version"
+RegexStart = 17
+RegexEnd = 23
+Type = "Tool"
+
+[[App]]
+AppAlias = "CMake"
+AppReal = "cmake"
+AppVerGet = "--version"
+RegexStart = 14
+RegexEnd = 20
+Type = "Tool"
+
+[[App]]
+AppAlias = "Dia"
+AppReal = "dia"
+AppVerGet = "-v"
+RegexStart = 12
+RegexEnd = 18
+Type = "Tool"
+
+[[App]]
+AppAlias = "Dot"
+AppReal = "dot"
+AppVerGet = "-V"
+RegexStart = 22
+RegexEnd = 29
+Type = "Tool"
+
+[[App]]
+AppAlias = "Doxygen"
+AppReal = "doxygen"
+AppVerGet = "--version"
+RegexStart = 0
+RegexEnd = 5
+Type = "Tool"
+
+[[App]]
+AppAlias = "GDB"
+AppReal = "gdb"
+AppVerGet = "--version"
+RegexStart = 31
+RegexEnd = 35
+Type = "Tool"
+
+[[App]]
+AppAlias = "Git"
+AppReal = "git"
+AppVerGet = "-v"
+RegexStart = 12
+RegexEnd = 20
+Type = "Tool"
+
+[[App]]
+AppAlias = "GMake"
+AppReal = "gmake"
+AppVerGet = "--version"
+RegexStart = 8
+RegexEnd = 12
+Type = "Tool"
+
+[[App]]
+AppAlias = "Jq"
+AppReal = "jq"
+AppVerGet = "--version"
+RegexStart = 3
+RegexEnd = 6
+Type = "Tool"
+
+[[App]]
+AppAlias = "Ninja"
+AppReal = "ninja"
+AppVerGet = "--version"
+RegexStart = 0
+RegexEnd = 6
+Type = "Tool"
+
+[[App]]
+AppAlias = "Pip3"
+AppReal = "pip3"
+AppVerGet = "--version"
+RegexStart = 4
+RegexEnd = 10
+Type = "Tool"
+
+[[App]]
+AppAlias = "Python3"
+AppReal = "python3"
+AppVerGet = "--version"
+RegexStart = 7
+RegexEnd = 13
+Type = "Tool"
+
+[[App]]
+AppAlias = "Qt Designer"
+AppReal = "qtdesignstudio"
+AppVerGet = "--version"
+RegexStart = 35
+RegexEnd = 41
+Type = "Application"
+
+[[App]]
+AppAlias = "Qt Creator"
+AppReal = "qtcreator"
+AppVerGet = "--version"
+RegexStart = 11
+RegexEnd = 16
+Type = "Application"
+
+[[App]]
+AppAlias = "Qt"
+AppReal = "qtdesignstudio"
+AppVerGet = "--version"
+RegexStart = 17
+RegexEnd = 23
+Type = "Tool"
+
+[[App]]
+AppAlias = "Sed"
+AppReal = "sed"
+AppVerGet = "--version"
+RegexStart = 23
+RegexEnd = 26
+Type = "Tool"
+
+[[App]]
+AppAlias = "VSCode"
+AppReal = "code"
+AppVerGet = "--version"
+RegexStart = 0
+RegexEnd = 6
+Type = "Application"
+
+[[App]]
+AppAlias = "Whoami"
+AppReal = "whoami"
+AppVerGet = "--version"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Whereis"
+AppReal = "whereis"
+AppVerGet = "-V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Find"
+AppReal = "find"
+AppVerGet = "--version"
+RegexStart = 21
+RegexEnd = 25
+Type = "Tool"
+
+[[App]]
+AppAlias = "PyCharm"
+AppReal = "pycharm"
+AppVerGet = "--version"
+RegexStart = 123
+RegexEnd = 128
+Type = "Application"
+
+[[App]]
+AppAlias = "PhpStorm"
+AppReal = "phpstorm"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Application"
+
+[[App]]
+AppAlias = "UltraEdit"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Application"
+
+[[App]]
+AppAlias = "UltraCompare"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Application"
+
+[[App]]
+AppAlias = "Krita"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Application"
+
+[[App]]
+AppAlias = "Gimp"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Application"
+
+[[App]]
+AppAlias = "Powershell"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Sudo"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "List"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Copy"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Remove"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Move"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Make Directory"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Disk Free"
+AppReal = "df"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Disk Usage"
+AppReal = "du"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Cat"
+AppReal = "cat"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Grep"
+AppReal = "grep"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Git Hub"
+AppReal = "gh"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Tool"
+
+[[App]]
+AppAlias = "Arduino IDE"
+AppReal = "whereis"
+AppVerGet = "V"
+RegexStart = 23
+RegexEnd = 27
+Type = "Application"

@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>520</width>
-    <height>345</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,13 +22,13 @@
   <property name="minimumSize">
    <size>
     <width>520</width>
-    <height>345</height>
+    <height>500</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>520</width>
-    <height>345</height>
+    <height>500</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
    <iconset>
     <normaloff>../resources/buttons/glassRound/glassButtonWizard.png</normaloff>../resources/buttons/glassRound/glassButtonWizard.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="2,1,1,1,1,1">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,0">
      <property name="leftMargin">
@@ -72,7 +72,7 @@
      <item>
       <widget class="QLabel" name="labelApplicationsInfo">
        <property name="text">
-        <string>When you are ready, please pess the Start Button, which will then open a dialog box to find the file applicationsneeded.yaml. It will then check to ensure that it is the desired file and then automatically attempt to find the applications neccessary for Projectionist to run properly.</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When you are ready, please press the &lt;span style=&quot; font-weight:700;&quot;&gt;Start Button&lt;/span&gt;, which will then open a dialog box to select the needed file. It will then check to ensure that it is the correct file and then automatically attempt to find the applications neccessary for Projectionist to run properly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -84,31 +84,75 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>TextLabel</string>
+      <widget class="QGroupBox" name="groupBoxCurrent">
+       <property name="title">
+        <string>Current</string>
        </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayoutCurrent">
+          <item>
+           <widget class="QLabel" name="labelCurrentDate">
+            <property name="text">
+             <string>Date: 26/05/2023</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelCurrentVersion">
+            <property name="text">
+             <string>Version: 0.0.0</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelCurrentQuantity">
+            <property name="text">
+             <string>Quantity: 0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_1">
      <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>TextLabel</string>
+      <widget class="QGroupBox" name="groupBoxCurrent">
+       <property name="title">
+        <string>New</string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_16">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayoutNew">
+          <item>
+           <widget class="QLabel" name="labelNewDate">
+            <property name="text">
+             <string>Date: 26/05/2023</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelNewVersion">
+            <property name="text">
+             <string>Version: 0.0.0</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelNewQuantity">
+            <property name="text">
+             <string>Quantity: 0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
@@ -116,60 +160,35 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>TextLabel</string>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Progress</string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_8">
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_9">
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
-     <property name="leftMargin">
-      <number>5</number>
-     </property>
-     <property name="rightMargin">
-      <number>5</number>
-     </property>
-     <item>
-      <widget class="QProgressBar" name="progressBarApplicatios">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="cursor">
-        <cursorShape>WaitCursor</cursorShape>
-       </property>
-       <property name="value">
-        <number>50</number>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
-       </property>
+       <widget class="QProgressBar" name="progressBarApplications">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>492</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="cursor">
+         <cursorShape>WaitCursor</cursorShape>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="invertedAppearance">
+         <bool>false</bool>
+        </property>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -227,6 +246,30 @@
        <property name="autoDefault">
         <bool>false</bool>
        </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <item>
+      <widget class="QGroupBox" name="groupBoxStatus">
+       <property name="title">
+        <string>Status</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_26">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayoutStatus">
+          <item>
+           <widget class="QLabel" name="labelStatus">
+            <property name="text">
+             <string>Waiting...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>

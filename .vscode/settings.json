@@ -1,4 +1,7 @@
 {
     "activestate.promptRuntimeCreation": false,
-    "editor.fontSize": 16
+    "editor.fontSize": 16,
+    "cSpell.words": [
+        "tomli"
+    ]
 }
