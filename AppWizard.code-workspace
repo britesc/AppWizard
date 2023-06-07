@@ -1,1 +1,13 @@
-{}
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../../../.config/J2Casa"
+		}
+	],
+	"settings": {
+		"arduino.creator.createFolder": true
+	}
+}
