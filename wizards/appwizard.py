@@ -3,6 +3,8 @@
 
 import subprocess
 
+import logging
+
 from PySide6.QtWidgets import (
     QDialog,
     QFileDialog,
@@ -31,15 +33,22 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self) # type: ignore
+        self.logging = logging.basicConfig(
+            filename='appwizard.log',
+            encoding='utf-8',
+            level=logging.NOTSET
+        )        
+        
         self.j2_settings = j2_settings.J2_Settings()
         self.HeaderKey = 'applications'
         self.AppsKey = 'apps'
         self.AdapterErrorCode = 0
         self.tablename = "Apps"
-        self.database = SqliteDict('projectionist.db', tablename=self.tablename, autocommit=True)
-
-    
-
+        self.database = SqliteDict(
+            'projectionist.db',
+            tablename=self.tablename,
+            autocommit=True
+        )    
 
         self.setWindowTitle("Applications Wizard")
         self.pushButtonClose.setEnabled(True)
