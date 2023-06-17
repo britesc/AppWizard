@@ -1,28 +1,31 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-import os
 import subprocess
 
 from PySide6.QtWidgets import (
     QDialog,
-    QFileDialog
+    QFileDialog,
+    QApplication    
 )
+
 
 from PySide6.QtCore import (
     QFileInfo,
     QDate
 )
 
-from sqlitedict import SqliteDict
+from sqlitedict import (
+    SqliteDict
+)    
 
 from classes import (
     j2_settings
 )
 
-# import pprint
-
-from wizards.appwizard_ui import Ui_dialogAppWizard
+from wizards.appwizard_ui import (
+    Ui_dialogAppWizard   
+)
 
 class AppWizard(QDialog, Ui_dialogAppWizard):
     def __init__(self) -> None:
@@ -32,14 +35,20 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         self.HeaderKey = 'applications'
         self.AppsKey = 'apps'
         self.AdapterErrorCode = 0
-        self.database = SqliteDict('projectionist.db', autocommit=True)
+        self.tablename = "Apps"
+        self.database = SqliteDict('projectionist.db', tablename=self.tablename, autocommit=True)
+
+    
 
 
         self.setWindowTitle("Applications Wizard")
+        self.pushButtonClose.setEnabled(True)
+        self.pushButtonStart.setEnabled(True)
 
         self.pushButtonClose.clicked.connect(self.closeApp) # type: ignore
         self.pushButtonStart.clicked.connect(self.startApp) # type: ignore
         self.progressBarApplications.setMinimum(0)
+        self.progressBarCounter=0
         self.labelStatus.setText("Waiting...")
         self.currentDate =  f"Date: {self.j2_settings.getHeaderDate()}"
         self.labelCurrentDate.setText(self.currentDate)
@@ -50,20 +59,18 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         self.key1 = 'applications'
         self.key2 = 'apps'
         self.ActivityResult = False
-        self.fileName = None
+        self.fileName = ()
 
-
+        self.setModal(True)
         self.exec()
 
     def closeApp(self) -> None:
         self.reject()
         
-    def startApp(self) -> None:
-        
+    def startApp(self) -> None:        
         self.progressBarApplications.setMinimum(0)
         self.labelStatus.setText("Processing...")
 
-        # print("In startApp")
         adapterList = [
             self.adapterNone,
             self.adapterToml,
@@ -71,7 +78,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             self.adapterJson
         ]        
 
-        self.fileName, succ = QFileDialog.getOpenFileName(
+        self.fileName = QFileDialog.getOpenFileName(            
             self, 
             "Open File",
             "/home",
@@ -80,17 +87,13 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             JSON Files (*.jsn  *.json)"
             ) # noqa: E999
 
-        # print(self.fileName)
-        # print(f"Location {str(self.fileName[0])}") # type: ignore
-        # print(f"Option {str(self.fileName[1])}") # type: ignore
-        # fi = QFileInfo(str(self.fileName[0])) # type: ignore
         self.file = QFileInfo(str(self.fileName[0])) # type: ignore
         self.filebase = self.file.fileName()
         self.extension = self.file.completeSuffix().lower()
-        # print(f"Extension {ext}")
-        self.labelStatus.setText(str(self.filebase))
-        # print(f"File Name = {self.filebase}")
 
+        self.labelStatus.setText(str(self.filebase))
+
+        QApplication.processEvents()
         adapter = 0
         match self.extension:
             case "toml":
@@ -106,11 +109,15 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             case _:
                 adapter= 0
 
-        print(f"Adapter {adapter}")
 
-        # print(f"Calling Adapter {adapterList[adapter]}") # type: ignore
 
         adapterList[adapter]() # type: ignore
+        if not self.ActivityResult:
+            return
+        self.checkLoadedConfig()
+        if not self.ActivityResult:
+            return    
+        self.parseConfig()    
         
         
         
@@ -126,10 +133,10 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         self.ActivityResult = False  
 
         try:        
-        # print(f"FileName {self.fileName[0]}") # type: ignore
             with open(self.fileName[0], mode="rb") as self.fp: # type: ignore
                 self.loadedConfig = tomli.load(self.fp)
             self.fp.close()                
+            QApplication.processEvents()
             self.ActivityResult = True
 
         except Exception as err:
@@ -153,6 +160,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         
         
     def checkLoadedConfig(self) -> bool: # type: ignore
+        # sourcery skip: class-extract-method
         # We need to check it is our file not some other file
         # First we check the length of the dictionary
         # If it is 2 OK else INVALID
@@ -172,13 +180,15 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 self.t1 = self.loadedConfig[self.key1]
                 self.t2 = self.loadedConfig[self.key2]            
                 self.ActivityResult = True
+                
 
         except Exception as err:
             print(f'checkLoadedConfig: Exception: {str(err)}')
             self.ActivityResult = False           
 
         finally:
-            print(f"checkLoadedConfig = {self.ActivityResult}")            
+            QApplication.processEvents()
+            # print(f"checkLoadedConfig 1 = {self.ActivityResult}")            
 #            time.sleep(1)
             if not self.ActivityResult:
                 return self.ActivityResult 
@@ -195,7 +205,8 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             self.ActivityResult = False           
 
         finally:
-            print(f"checkLoadedConfig = {self.ActivityResult}")            
+            QApplication.processEvents()    
+            print(f"checkLoadedConfig 2 = {self.ActivityResult}")            
 #            time.sleep(1)
             if not self.ActivityResult:
                 return self.ActivityResult                 
@@ -216,6 +227,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 self.NewQuantity = len(self.loadedConfig[self.key2])
                 self.labelNewQuantity.setText(f"Quantity: {self.NewQuantity}")
                 self.progressBarApplications.setMinimum(0)
+                self.progressBarCounter=0
                 self.progressBarApplications.setMaximum(self.NewQuantity)
                 self.ActivityResult = True
 
@@ -224,16 +236,25 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             self.ActivityResult = False           
 
         finally:
-            print(f"checkLoadedConfig = {self.ActivityResult}")            
+            QApplication.processEvents()        
+            print(f"checkLoadedConfig 3 = {self.ActivityResult}")            
 #            time.sleep(1)
             return self.ActivityResult 
 
     def parseConfig(self) -> bool:
         print("parseConfig Called")
+        self.progressBarApplications.setMinimum(0)
+        self.progressBarCounter=0
+        self.progressBarApplications.setMaximum(self.NewQuantity)
+
         self.ActivityResult = False
+        self.pushButtonClose.setEnabled(False)
+        self.pushButtonStart.setEnabled(False)
+        
         try:
+            # print("Trying Dict Item")
             for dict_item in self.loadedConfig[self.key2]:
-                vAppAlias = dict_item['AppAlias']
+                vAppAlias = dict_item['AppAlias'] # type: ignore
                 vAppReal  = dict_item['AppReal']
                 vAppVerGet = dict_item['AppVerGet']
                 vRegexStart = dict_item['RegexStart']
@@ -241,18 +262,103 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 vType = dict_item['Type']
 
                 request = f"which {vAppReal}"
-                process = subprocess.run(request, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+                process = subprocess.run(
+                    request, 
+                    shell=True, 
+                    check=False, 
+                    stdout=subprocess.PIPE, 
+                    stderr=subprocess.PIPE, 
+                    universal_newlines=True,
+                    timeout=10
+                )
 
                 vLocation = process.stdout
-                vLocation = vLocation.rstrip('\n')                                 
+                vLocation = vLocation.rstrip('\n')
+                self.labelStatus.setText(f"Processing... {vLocation}")      
+                QApplication.processEvents()
+
+                process.stdout = ""
+                process.stderr = ""
+
+                vRequest = f"{vLocation} {vAppVerGet}"
+                process = subprocess.run(
+                    vRequest,
+                    shell=True,
+                    check=False,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    universal_newlines=True,
+                    timeout=10
+                )
+# sourcery skip: extract-duplicate-method, extract-method, use-or-for-fallback
+                responseVersion = process.stdout
+                if not responseVersion:
+                    responseVersion = process.stderr
+                responseVersion = responseVersion.rstrip('\n')
+                vVersion = responseVersion[vRegexStart:vRegexEnd]
+
+                self.database[f"{vAppReal}"] = {
+                    'app': vAppReal,
+                    'alias': vAppAlias,
+                    'location' : vLocation,
+                    'version': vVersion,
+                    'type': vType
+                }
+
+                self.progressBarCounter += 1
+                self.progressBarApplications.setValue(self.progressBarCounter)
+                QApplication.processEvents()
+                process.stdout = ""
+                process.stderr = ""
+                self.ActivityResult = True     
+
+                # print("SQLiteDict Routine Starts Here")
+                """
+                    Build Dict Item then call SQLiteDict to Collect It
+                """
+
+        except(subprocess.CalledProcessError):
+            vRequest = f"killall {vAppReal}"
+            print(f"{vRequest}")            
+
+            process = subprocess.run(
+                vRequest,
+                shell=True,
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+                timeout=10
+            )
+            subprocess.CalledProcessError.discard() # type: ignore
 
         except Exception as err:
             print(f'parseConfig: Exception: {str(err)}')
-            self.ActivityResult = False           
+            vRequest = f"killall {vAppReal}"
+            print(f"{vRequest}")            
+            err.discard()            # type: ignore
+            
+            process = subprocess.run(
+                vRequest,
+                shell=True,
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+                timeout=10
+            )            
+            self.ActivityResult = True
+
 
         finally:
+            QApplication.processEvents()
             print(f"parseConfig = {self.ActivityResult}")            
 #            time.sleep(1)
+            self.labelStatus.setText("Completed")
+            self.progressBarApplications.setValue(self.NewQuantity)
+            self.pushButtonClose.setEnabled(True)
+ 
+            QApplication.processEvents()            
             return self.ActivityResult                
                     
                 

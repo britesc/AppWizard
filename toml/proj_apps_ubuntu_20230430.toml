@@ -30,7 +30,7 @@ Type = "Tool"
 [[apps]]
 AppAlias = "Dia"
 AppReal = "dia"
-AppVerGet = "-v"
+AppVerGet = "--version"
 RegexStart = 12
 RegexEnd = 18
 Type = "Tool"
@@ -62,7 +62,7 @@ Type = "Tool"
 [[apps]]
 AppAlias = "Git"
 AppReal = "git"
-AppVerGet = "-v"
+AppVerGet = "--version"
 RegexStart = 12
 RegexEnd = 20
 Type = "Tool"
@@ -111,8 +111,8 @@ Type = "Tool"
 AppAlias = "Qt Designer"
 AppReal = "qtdesignstudio"
 AppVerGet = "--version"
-RegexStart = 35
-RegexEnd = 41
+RegexStart = 17
+RegexEnd = 23
 Type = "Application"
 
 [[apps]]
@@ -120,15 +120,15 @@ AppAlias = "Qt Creator"
 AppReal = "qtcreator"
 AppVerGet = "--version"
 RegexStart = 11
-RegexEnd = 16
+RegexEnd = 18
 Type = "Application"
 
 [[apps]]
 AppAlias = "Qt"
 AppReal = "qtdesignstudio"
 AppVerGet = "--version"
-RegexStart = 17
-RegexEnd = 23
+RegexStart = 35
+RegexEnd = 41
 Type = "Tool"
 
 [[apps]]
@@ -158,167 +158,167 @@ Type = "Tool"
 [[apps]]
 AppAlias = "Whereis"
 AppReal = "whereis"
-AppVerGet = "-V"
-RegexStart = 23
-RegexEnd = 27
+AppVerGet = "--version"
+RegexStart = 24
+RegexEnd = 29
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Find"
 AppReal = "find"
 AppVerGet = "--version"
-RegexStart = 21
-RegexEnd = 25
+RegexStart = 20
+RegexEnd = 26
 Type = "Tool"
 
 [[apps]]
 AppAlias = "PyCharm"
-AppReal = "pycharm"
+AppReal = "pycharm-community"
 AppVerGet = "--version"
-RegexStart = 123
-RegexEnd = 128
+RegexStart = 114
+RegexEnd = 119
 Type = "Application"
 
 [[apps]]
 AppAlias = "PhpStorm"
 AppReal = "phpstorm"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppVerGet = "--version"
+RegexStart = 112
+RegexEnd = 120
 Type = "Application"
 
 [[apps]]
 AppAlias = "UltraEdit"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "uex"
+AppVerGet = "--version"
+RegexStart = 24
+RegexEnd = 34
 Type = "Application"
 
 [[apps]]
 AppAlias = "UltraCompare"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "ucx"
+AppVerGet = "--version"
+RegexStart = 20
+RegexEnd = 31
 Type = "Application"
 
 [[apps]]
 AppAlias = "Krita"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "krita"
+AppVerGet = "--version"
+RegexStart = 238
+RegexEnd = 242
 Type = "Application"
 
 [[apps]]
 AppAlias = "Gimp"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "gimp"
+AppVerGet = "--version"
+RegexStart = 39
+RegexEnd = 44
 Type = "Application"
 
 [[apps]]
 AppAlias = "Powershell"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "powershell"
+AppVerGet = "--version"
+RegexStart = 11
+RegexEnd = 16
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Sudo"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "sudo"
+AppVerGet = "--version"
+RegexStart = 13
+RegexEnd = 21
 Type = "Tool"
 
 [[apps]]
 AppAlias = "List"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "ls"
+AppVerGet = "--version"
+RegexStart = 19
+RegexEnd = 22
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Copy"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "cp"
+AppVerGet = "--version"
+RegexStart = 19
+RegexEnd = 22
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Remove"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "rm"
+AppVerGet = "--version"
+RegexStart = 19
+RegexEnd = 22
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Move"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "mv"
+AppVerGet = "--version"
+RegexStart = 19
+RegexEnd = 22
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Make Directory"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "mkdir"
+AppVerGet = "--version"
+RegexStart = 22
+RegexEnd = 25
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Disk Free"
 AppReal = "df"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppVerGet = "--version"
+RegexStart = 19
+RegexEnd = 22
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Disk Usage"
 AppReal = "du"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppVerGet = "--version"
+RegexStart = 19
+RegexEnd = 22
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Cat"
 AppReal = "cat"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppVerGet = "--version"
+RegexStart = 20
+RegexEnd = 23
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Grep"
 AppReal = "grep"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppVerGet = "--version"
+RegexStart = 16
+RegexEnd = 17
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Git Hub"
 AppReal = "gh"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppVerGet = "--version"
+RegexStart = 11
+RegexEnd = 16
 Type = "Tool"
 
 [[apps]]
 AppAlias = "Arduino IDE"
-AppReal = "whereis"
-AppVerGet = "V"
-RegexStart = 23
-RegexEnd = 27
+AppReal = "arduino-ide"
+AppVerGet = "--version"
+RegexStart = 12
+RegexEnd = 16
 Type = "Application"
