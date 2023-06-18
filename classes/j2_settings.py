@@ -88,3 +88,6 @@ class J2_Settings:
     def getHeaderVersion(self) -> str:
         return self.jSettings.value("Header/Version", "", str)
     
+    def getDebugStatus(self) -> str:
+        tmp = self.jSettings.value("Debug/Status", "", str)
+        return tmp.upper()    

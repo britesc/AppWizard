@@ -20,9 +20,9 @@ def SetupApp() -> None:
     global vApplicationName
     vApplicationName = os.path.splitext(os.path.basename(__file__))[0]
     basedir = os.path.dirname(__file__)
-    print("Current working folder: ", os.getcwd())
-    print("Paths are relative to: ", basedir)
-    print("Application Name: ", vApplicationName)
+    # print("Current working folder: ", os.getcwd())
+    # print("Paths are relative to: ", basedir)
+    # print("Application Name: ", vApplicationName)
 
 
 def Main() -> None:
@@ -36,9 +36,9 @@ def Main() -> None:
         
     
     except Exception as err:
-        print(f"Unfortunately {vApplicationName} has encountered an error \
-and is unable to continue.")
-        print(f"Exception {err=}, {type(err)=}")
+#         print(f"Unfortunately {vApplicationName} has encountered an error \
+# and is unable to continue.")
+#         print(f"Exception {err=}, {type(err)=}")
         traceback.print_exc()
         traceback.print_exception() # type: ignore
 
@@ -63,7 +63,7 @@ class MainWindow(QMainWindow):
 
         
     def button_was_clicked(self) -> None:
-        print("Button was Clicked")
+        # print("Button was Clicked")
         self.AppWizard = appwizard.AppWizard()
         
 

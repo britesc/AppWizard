@@ -33,13 +33,21 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self) # type: ignore
+        self.debugstatus = logging.NOTSET
         self.logging = logging.basicConfig(
             filename='appwizard.log',
             encoding='utf-8',
-            level=logging.NOTSET
+            level=self.debugstatus,
+            format='%(asctime)s %(levelname)s: %(message)s',
+            datefmt='%d/%m/%Y %H:%M:%S'
         )        
-        
+
         self.j2_settings = j2_settings.J2_Settings()
+        self.debugstatus = self.j2_settings.getDebugStatus()
+        logging.getLogger().setLevel(self.debugstatus)
+        
+        
+
         self.HeaderKey = 'applications'
         self.AppsKey = 'apps'
         self.AdapterErrorCode = 0
@@ -79,6 +87,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
     def startApp(self) -> None:        
         self.progressBarApplications.setMinimum(0)
         self.labelStatus.setText("Processing...")
+        logging.debug('Processing...')
 
         adapterList = [
             self.adapterNone,
@@ -131,14 +140,14 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         
         
     def adapterNone(self) -> None:
-        print("AdapterNone Called")
+        logging.debug('AdapterNone Called')
         
     
     def adapterToml(self) -> bool:
         import tomli
 
         # Set status to Using TOML Adapter
-        print("AdapterToml Called")
+        logging.debug('AdapterToml Called')
         self.ActivityResult = False  
 
         try:        
@@ -149,21 +158,21 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             self.ActivityResult = True
 
         except Exception as err:
-            print(f'adapterToml Failed: Exception: {str(err)}')
+            logging.error(f'adapterToml Failed: Exception: {str(err)}')
             self.ActivityResult = False           
 
         finally:
-            print(f"adapterToml = {self.ActivityResult}")            
+            logging.debug(f"adapterToml = {self.ActivityResult}")            
             self.fp.close()
 #            time.sleep(1)
             return self.ActivityResult
                 # We now have the TOML File Loaded
             
     def adapterYaml(self) -> None:
-        print("AdapterYaml Called")
+        logging.debug("AdapterYaml Called")
     
     def adapterJson(self) -> None:
-        print("AdapterJson Called")
+        logging.debug("AdapterJson Called")
 
 
         
@@ -173,16 +182,17 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         # We need to check it is our file not some other file
         # First we check the length of the dictionary
         # If it is 2 OK else INVALID
-        print("checkLoadedConfig Called")
+        logging.debug("checkLoadedConfig Called")
         self.ActivityResult = False
         try:
             if len(self.loadedConfig) != 2: # type: ignore
-                # print status message File Invalid and wait for reselection or close option
+                # logging.info status message File Invalid and wait for reselection or close option
                 self.labelStatus.setText("Incorrect File Format")
+                logging.warning('Incorrect File Format')
                 self.t1 = []
                 self.t2 = []
                 self.loadedConfig.clear()
-                # print("Length |= 2 so stop")
+                logging.debug("Length |= 2 so stop")
                 self.AdapterErrorCode = 4001
                 self.ActivityResult = False
             else:
@@ -192,12 +202,12 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 
 
         except Exception as err:
-            print(f'checkLoadedConfig: Exception: {str(err)}')
+            logging.error(f'checkLoadedConfig: Exception: {str(err)}')
             self.ActivityResult = False           
 
         finally:
             QApplication.processEvents()
-            # print(f"checkLoadedConfig 1 = {self.ActivityResult}")            
+            logging.debug(f"checkLoadedConfig 1 = {self.ActivityResult}")            
 #            time.sleep(1)
             if not self.ActivityResult:
                 return self.ActivityResult 
@@ -210,19 +220,19 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 self.ActivityResult = False
 
         except Exception as err:
-            print(f'checkLoadedConfig: Exception: {str(err)}')
+            logging.error(f'checkLoadedConfig: Exception: {str(err)}')
             self.ActivityResult = False           
 
         finally:
             QApplication.processEvents()    
-            print(f"checkLoadedConfig 2 = {self.ActivityResult}")            
+            logging.debug(f"checkLoadedConfig 2 = {self.ActivityResult}")            
 #            time.sleep(1)
             if not self.ActivityResult:
                 return self.ActivityResult                 
 
         try:
             if (self.loadedConfig[self.key1][0]['application'] != 'Projectionist'):
-            # print("Wrong File")
+                logging.warning("Wrong File")
                 self.loadedConfig.clear()
                 self.labelStatus.setText("Wrong File Selected")    
                 self.AdapterErrorCode = 4003   
@@ -241,17 +251,17 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 self.ActivityResult = True
 
         except Exception as err:
-            print(f'checkLoadedConfig: Exception: {str(err)}')
+            logging.error(f'checkLoadedConfig: Exception: {str(err)}')
             self.ActivityResult = False           
 
         finally:
             QApplication.processEvents()        
-            print(f"checkLoadedConfig 3 = {self.ActivityResult}")            
+            logging.debug(f"checkLoadedConfig 3 = {self.ActivityResult}")            
 #            time.sleep(1)
             return self.ActivityResult 
 
     def parseConfig(self) -> bool:
-        print("parseConfig Called")
+        logging.debug("parseConfig Called")
         self.progressBarApplications.setMinimum(0)
         self.progressBarCounter=0
         self.progressBarApplications.setMaximum(self.NewQuantity)
@@ -261,7 +271,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         self.pushButtonStart.setEnabled(False)
         
         try:
-            # print("Trying Dict Item")
+            logging.debug("Trying Dict Item")
             for dict_item in self.loadedConfig[self.key2]:
                 vAppAlias = dict_item['AppAlias'] # type: ignore
                 vAppReal  = dict_item['AppReal']
@@ -283,7 +293,8 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
                 vLocation = process.stdout
                 vLocation = vLocation.rstrip('\n')
-                self.labelStatus.setText(f"Processing... {vLocation}")      
+                self.labelStatus.setText(f"Processing... {vLocation}")
+                logging.info(f"Processing... {vLocation}")     
                 QApplication.processEvents()
 
                 process.stdout = ""
@@ -321,14 +332,14 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 process.stderr = ""
                 self.ActivityResult = True     
 
-                # print("SQLiteDict Routine Starts Here")
+                # logging.info("SQLiteDict Routine Starts Here")
                 """
                     Build Dict Item then call SQLiteDict to Collect It
                 """
 
         except(subprocess.CalledProcessError):
             vRequest = f"killall {vAppReal}"
-            print(f"{vRequest}")            
+            logging.warn(f"{vRequest}")            
 
             process = subprocess.run(
                 vRequest,
@@ -342,9 +353,9 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             subprocess.CalledProcessError.discard() # type: ignore
 
         except Exception as err:
-            print(f'parseConfig: Exception: {str(err)}')
+            logging.error(f'parseConfig: Exception: {str(err)}')
             vRequest = f"killall {vAppReal}"
-            print(f"{vRequest}")            
+            logging.debug(f"{vRequest}")            
             err.discard()            # type: ignore
             
             process = subprocess.run(
@@ -361,7 +372,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
         finally:
             QApplication.processEvents()
-            print(f"parseConfig = {self.ActivityResult}")            
+            logging.debug(f"parseConfig = {self.ActivityResult}")            
 #            time.sleep(1)
             self.labelStatus.setText("Completed")
             self.progressBarApplications.setValue(self.NewQuantity)
@@ -386,97 +397,97 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 
     """
 
-        pprint.pprint(self.loadedConfig)  
+        plogging.info.plogging.info(self.loadedConfig)  
 
-        print("Debug Point 1 - len(self.loadedConfig)")
-        print(len(self.loadedConfig),end='\n\n')
-
-
-        print("Debug Point 2 - self.loadedConfig['applications']")
-        print(self.loadedConfig['applications'],end='\n\n') 
+        logging.info("Debug Point 1 - len(self.loadedConfig)")
+        logging.info(len(self.loadedConfig),end='\n\n')
 
 
-        print("Debug Point 3 - t1 = self.loadedConfig['applications']")
+        logging.info("Debug Point 2 - self.loadedConfig['applications']")
+        logging.info(self.loadedConfig['applications'],end='\n\n') 
+
+
+        logging.info("Debug Point 3 - t1 = self.loadedConfig['applications']")
         t1 = self.loadedConfig['applications']
-        print(len(t1))
-        pprint.pprint(t1)
-        print("")
+        logging.info(len(t1))
+        plogging.info.plogging.info(t1)
+        logging.info("")
 
 
-        print("Debug Point 4 - x = self.loadedConfig.keys()")
+        logging.info("Debug Point 4 - x = self.loadedConfig.keys()")
         x = self.loadedConfig.keys()
-        print(x,end='\n\n')    
+        logging.info(x,end='\n\n')    
 
 
-        print("Debug Point 5 - key1 = list(self.loadedConfig.keys())[0]")
+        logging.info("Debug Point 5 - key1 = list(self.loadedConfig.keys())[0]")
         key1 = self._extracted_from_adapterToml_58(
             0, "Debug Point 6 - key2 = list(self.loadedConfig.keys())[1]"
         )
         key2 = self._extracted_from_adapterToml_58(
             1, "Debug Point 2b - self.loadedConfig[key1]"
         )
-        print(self.loadedConfig[key1],end='\n\n')  
+        logging.info(self.loadedConfig[key1],end='\n\n')  
 
 
-        print("Debug Point 3b - t2 = len(self.loadedConfig[key1]")
+        logging.info("Debug Point 3b - t2 = len(self.loadedConfig[key1]")
         t2 = len(self.loadedConfig[key1])
-        print(t2,end='\n\n')          
+        logging.info(t2,end='\n\n')          
 
-        print("Debug Point 7 - td1 = self.loadedConfig[key1]")
+        logging.info("Debug Point 7 - td1 = self.loadedConfig[key1]")
         td1 = self.loadedConfig[key1]
-        pprint.pprint(td1)
-        print("")
+        plogging.info.plogging.info(td1)
+        logging.info("")
 
-        print("Debug Point 8 - t3 = len(td1)")
+        logging.info("Debug Point 8 - t3 = len(td1)")
         t3 = len(td1)
-        print(t3,end='\n\n')
+        logging.info(t3,end='\n\n')
 
         self._extracted_from_adapterToml_84(
             "Debug Point 9 - td1[0]['date']", td1, 'date', 'version'
         )
-        print("")
+        logging.info("")
 
-        print("Debug Point 3c - t2 = len(self.loadedConfig[key2]")
+        logging.info("Debug Point 3c - t2 = len(self.loadedConfig[key2]")
         t2 = len(self.loadedConfig[key2])
-        print(t2,end='\n\n')           
+        logging.info(t2,end='\n\n')           
 
-        print("Debug Point 7a - td1 = self.loadedConfig[key2]")
+        logging.info("Debug Point 7a - td1 = self.loadedConfig[key2]")
         td1 = self.loadedConfig[key2]
-        pprint.pprint(td1)
-        print("")
+        plogging.info.plogging.info(td1)
+        logging.info("")
 
-        print("Debug Point 8a - t3 = len(td1)")
-        print(len(td1), end='\n\n')   
+        logging.info("Debug Point 8a - t3 = len(td1)")
+        logging.info(len(td1), end='\n\n')   
 
         self._extracted_from_adapterToml_84(
             "Debug Point 9a - td1[0]['AppAlias']", td1, 'AppAlias', 'AppReal'
         )
-        print(td1[0]['AppVerGet'])
-        print(td1[0]['RegexEnd'])
-        print(td1[0]['RegexStart'])
-        print(td1[0]['Type'])
-        print("")             
+        logging.info(td1[0]['AppVerGet'])
+        logging.info(td1[0]['RegexEnd'])
+        logging.info(td1[0]['RegexStart'])
+        logging.info(td1[0]['Type'])
+        logging.info("")             
 
     # TODO Rename this here and in `adapterToml`
     def _extracted_from_adapterToml_84(self, arg0, td1, arg2, arg3):
-        print(arg0)
-        print(td1[0][arg2])
-        print(td1[0][arg3])             
+        logging.info(arg0)
+        logging.info(td1[0][arg2])
+        logging.info(td1[0][arg3])             
 
     # TODO Rename this here and in `adapterToml`
     def _extracted_from_adapterToml_58(self, arg0, arg1):
         self.ActivityResult = list(self.loadedConfig.keys())[arg0]
-        print(self.ActivityResult, end='\n\n')
+        logging.info(self.ActivityResult, end='\n\n')
 
 
-        print(arg1)
+        logging.info(arg1)
         return self.ActivityResult             
         
         # key3 = self.loadedConfig.keys()
         
-        # print(key3)
+        # logging.info(key3)
         # for key in self.loadedConfig.keys():
-        #     print(key, '->', self.loadedConfig[key])
+        #     logging.info(key, '->', self.loadedConfig[key])
 
     """
 
