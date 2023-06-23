@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Images/png/blank.png</file>
+        <file>Images/png/json.png</file>
+        <file>Images/png/toml.png</file>
+        <file>Images/png/yaml.png</file>
+    </qresource>
+</RCC>

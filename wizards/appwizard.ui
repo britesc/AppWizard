@@ -40,7 +40,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="2,1,1,1,1,1">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,0">
+    <layout class="QHBoxLayout" name="horizontalLayoutHeader" stretch="1,0">
      <property name="leftMargin">
       <number>5</number>
      </property>
@@ -62,7 +62,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../resources/buttons/buttonsGlassRound.qrc">:/glassRound/glassButtonWizard.png</pixmap>
+        <pixmap resource="../resources/buttonsGlassRound.qrc">:/buttons/glassRound/glassButtonWizard.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -82,7 +82,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayoutMasterCurrent">
      <item>
       <widget class="QGroupBox" name="groupBoxCurrent">
        <property name="title">
@@ -94,7 +94,7 @@
           <item>
            <widget class="QLabel" name="labelCurrentDate">
             <property name="text">
-             <string>Date: 26/05/2023</string>
+             <string>Date: </string>
             </property>
            </widget>
           </item>
@@ -120,9 +120,9 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_1">
+    <layout class="QHBoxLayout" name="horizontalLayoutMasterNew">
      <item>
-      <widget class="QGroupBox" name="groupBoxCurrent">
+      <widget class="QGroupBox" name="groupBoxNew">
        <property name="title">
         <string>New</string>
        </property>
@@ -132,7 +132,7 @@
           <item>
            <widget class="QLabel" name="labelNewDate">
             <property name="text">
-             <string>Date: 26/05/2023</string>
+             <string>Date: </string>
             </property>
            </widget>
           </item>
@@ -158,19 +158,19 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayoutProgress">
      <item>
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="groupBoxProgress">
        <property name="title">
         <string>Progress</string>
        </property>
        <widget class="QProgressBar" name="progressBarApplications">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>0</x>
           <y>20</y>
-          <width>492</width>
-          <height>25</height>
+          <width>500</width>
+          <height>30</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -194,9 +194,38 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <layout class="QHBoxLayout" name="horizontalLayoutMasterButtons">
      <item>
-      <spacer name="horizontalSpacer">
+      <spacer name="horizontalSpacerButtonsLeft">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelFileType">
+       <property name="maximumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../resources/readfiles.qrc">:/Images/png/blank.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacerButtonsRight">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -214,8 +243,8 @@
         <string>Close</string>
        </property>
        <property name="icon">
-        <iconset resource="../resources/buttons/buttonsGlassRound.qrc">
-         <normaloff>:/glassRound/glassButtonClose.png</normaloff>:/glassRound/glassButtonClose.png</iconset>
+        <iconset resource="../resources/buttonsGlassRound.qrc">
+         <normaloff>:/buttons/glassRound/glassButtonClose.png</normaloff>:/buttons/glassRound/glassButtonClose.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -234,8 +263,8 @@
         <string>Start</string>
        </property>
        <property name="icon">
-        <iconset resource="../resources/buttons/buttonsGlassRound.qrc">
-         <normaloff>:/glassRound/glassButtonStart.png</normaloff>:/glassRound/glassButtonStart.png</iconset>
+        <iconset resource="../resources/buttonsGlassRound.qrc">
+         <normaloff>:/buttons/glassRound/glassButtonStart.png</normaloff>:/buttons/glassRound/glassButtonStart.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -251,7 +280,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_7">
+    <layout class="QHBoxLayout" name="horizontalLayoutMasterStatus">
      <item>
       <widget class="QGroupBox" name="groupBoxStatus">
        <property name="title">
@@ -277,7 +306,9 @@
   </layout>
  </widget>
  <resources>
-  <include location="../resources/buttons/buttonsGlassRound.qrc"/>
+  <include location="../resources/buttonsGlassRound.qrc"/>
+  <include location="../resources/readfiles.qrc"/>
+  <include location="../resources/png.qrc"/>
  </resources>
  <connections/>
 </ui>

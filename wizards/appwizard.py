@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
+
+
+# TODO Move all .qrc files to resources folder adjusting as necessary
+
 import subprocess
 
 import logging
@@ -82,6 +86,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         self.exec()
 
     def closeApp(self) -> None:
+        self.labelStatus.setText("Waiting...")
         self.reject()
         
     def startApp(self) -> None:        
@@ -96,7 +101,9 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             self.adapterJson
         ]        
 
-        self.fileName = QFileDialog.getOpenFileName(            
+        # self.fileName = QFileDialog.getOpenFileName(            
+
+        pz  = QFileDialog.getOpenFileName(            
             self, 
             "Open File",
             "/home",
@@ -105,9 +112,9 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             JSON Files (*.jsn  *.json)"
             ) # noqa: E999
 
-        self.file = QFileInfo(str(self.fileName[0])) # type: ignore
-        self.filebase = self.file.fileName()
-        self.extension = self.file.completeSuffix().lower()
+        self.filename = QFileInfo(str(pz[0])) # type: ignore
+        self.filebase = self.filename.fileName()
+        self.extension = self.filename.completeSuffix().lower()
 
         self.labelStatus.setText(str(self.filebase))
 
@@ -324,6 +331,11 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                     'version': vVersion,
                     'type': vType
                 }
+                self.database.commit()
+
+                print("")
+                for key, item in self.database.items():
+                    print("%s=%s" % (key, item))
 
                 self.progressBarCounter += 1
                 self.progressBarApplications.setValue(self.progressBarCounter)
@@ -331,11 +343,6 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 process.stdout = ""
                 process.stderr = ""
                 self.ActivityResult = True     
-
-                # logging.info("SQLiteDict Routine Starts Here")
-                """
-                    Build Dict Item then call SQLiteDict to Collect It
-                """
 
         except(subprocess.CalledProcessError):
             vRequest = f"killall {vAppReal}"
@@ -378,7 +385,9 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             self.progressBarApplications.setValue(self.NewQuantity)
             self.pushButtonClose.setEnabled(True)
  
-            QApplication.processEvents()            
+            QApplication.processEvents()       
+            print("There are %d items in the database" % len(self.database))     
+            self.database.close()
             return self.ActivityResult                
                     
                 
