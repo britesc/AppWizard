@@ -132,7 +132,7 @@
           <item>
            <widget class="QLabel" name="labelNewDate">
             <property name="text">
-             <string>Date: </string>
+             <string>Date: None</string>
             </property>
            </widget>
           </item>

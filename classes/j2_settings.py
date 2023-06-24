@@ -84,6 +84,9 @@ class J2_Settings:
     def getHeaderDate(self) -> str:
         temp1 = self.jSettings.value("Header/Date", 0, int)
         return QDate.fromJulianDay(temp1).toString()
+    
+    def getHeaderJulianDate(self) -> int:
+        return self.jSettings.value("Header/Date", 0, int)
 
     def getHeaderVersion(self) -> str:
         return self.jSettings.value("Header/Version", "", str)
@@ -91,3 +94,13 @@ class J2_Settings:
     def getDebugStatus(self) -> str:
         tmp = self.jSettings.value("Debug/Status", "", str)
         return tmp.upper()    
+
+    def setHeaderQuantity(self, Quantity: int) -> None:
+        self.jSettings.setValue("Header/Quantity", Quantity)
+        
+    def setHeaderDate(self, JulianDate: int) -> None:
+        self.jSettings.setValue("Header/Date", JulianDate)
+
+    def setHeaderVersion(self, Version: str) -> None:
+        self.jSettings.setValue("Header/Version", Version)
+        

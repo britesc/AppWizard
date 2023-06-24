@@ -21,6 +21,10 @@ from PySide6.QtCore import (
     QDate
 )
 
+from PySide6.QtGui import (
+    QPixmap
+)
+
 from sqlitedict import (
     SqliteDict
 )    
@@ -31,6 +35,10 @@ from classes import (
 
 from wizards.appwizard_ui import (
     Ui_dialogAppWizard   
+)
+
+from resources import (
+    rc_readfiles
 )
 
 class AppWizard(QDialog, Ui_dialogAppWizard):
@@ -155,12 +163,14 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
         # Set status to Using TOML Adapter
         logging.debug('AdapterToml Called')
-        self.ActivityResult = False  
+        self.ActivityResult = False 
 
         try:        
             with open(self.fileName[0], mode="rb") as self.fp: # type: ignore
                 self.loadedConfig = tomli.load(self.fp)
-            self.fp.close()                
+            # self.fp.close()       
+            self.labelFileType.setPixmap(QPixmap(u":/Images/png/toml.png"))         
+
             QApplication.processEvents()
             self.ActivityResult = True
 
@@ -247,6 +257,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
             else:
                 self.NewDate = QDate.fromJulianDay(self.loadedConfig[self.key1][0]['date']).toString()  # noqa: E501
+                self.NewJulianDate = (self.loadedConfig[self.key1][0]['date'])
                 self.labelNewDate.setText(f"Date: {self.NewDate}")
                 self.NewVersion = self.loadedConfig[self.key1][0]['version']
                 self.labelNewVersion.setText(f"Version: {self.NewVersion}")
@@ -332,10 +343,12 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                     'type': vType
                 }
                 self.database.commit()
+                
+                self.databaseSize = str(len(self.database))
 
-                print("")
-                for key, item in self.database.items():
-                    print("%s=%s" % (key, item))
+                # print("")
+                # for key, item in self.database.items():
+                #     print("%s=%s" % (key, item))
 
                 self.progressBarCounter += 1
                 self.progressBarApplications.setValue(self.progressBarCounter)
@@ -343,6 +356,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 process.stdout = ""
                 process.stderr = ""
                 self.ActivityResult = True     
+
 
         except(subprocess.CalledProcessError):
             vRequest = f"killall {vAppReal}"
@@ -381,8 +395,29 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             QApplication.processEvents()
             logging.debug(f"parseConfig = {self.ActivityResult}")            
 #            time.sleep(1)
+
+            if self.ActivityResult:
+                self.labelStatus.setText("Waiting...")
+                
+                self.currentDate =  self.NewDate
+                self.labelCurrentDate.setText(f"Date: {self.currentDate}")
+                self.NewDate = ""
+                self.labelNewDate.setText("Date: None")
+                
+                self.currentVersion = self.NewVersion
+                self.labelCurrentVersion.setText(f"Version: {self.currentVersion}")
+                self.NewVersion = ""
+                self.labelNewVersion.setText("Version: 0.0.0")
+                
+                self.currentQuantity = self.databaseSize
+                self.labelCurrentQuantity.setText(self.currentQuantity)
+                self.NewQuantity = ""
+                self.labelNewQuantity.setText("Quantity: 0") 
+
+            QApplication.processEvents()
+
             self.labelStatus.setText("Completed")
-            self.progressBarApplications.setValue(self.NewQuantity)
+            self.progressBarApplications.setValue(0)
             self.pushButtonClose.setEnabled(True)
  
             QApplication.processEvents()       
@@ -406,7 +441,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 
     """
 
-        plogging.info.plogging.info(self.loadedConfig)  
+        logging.info.(self.loadedConfig)  
 
         logging.info("Debug Point 1 - len(self.loadedConfig)")
         logging.info(len(self.loadedConfig),end='\n\n')

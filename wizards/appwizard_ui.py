@@ -18,9 +18,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QDialog, QGroupBox, QHBoxLayout,
     QLabel, QProgressBar, QPushButton, QSizePolicy,
     QSpacerItem, QVBoxLayout, QWidget)
-import buttonsGlassRound_rc
-import readfiles_rc
-import png_rc
+from resources import (
+    buttonsGlassRound_rc,
+    readfiles_rc,
+    png_rc
+)
 
 class Ui_dialogAppWizard(object):
     def setupUi(self, dialogAppWizard):
@@ -229,7 +231,7 @@ class Ui_dialogAppWizard(object):
         self.labelCurrentVersion.setText(QCoreApplication.translate("dialogAppWizard", u"Version: 0.0.0", None))
         self.labelCurrentQuantity.setText(QCoreApplication.translate("dialogAppWizard", u"Quantity: 0", None))
         self.groupBoxNew.setTitle(QCoreApplication.translate("dialogAppWizard", u"New", None))
-        self.labelNewDate.setText(QCoreApplication.translate("dialogAppWizard", u"Date: ", None))
+        self.labelNewDate.setText(QCoreApplication.translate("dialogAppWizard", u"Date: None", None))
         self.labelNewVersion.setText(QCoreApplication.translate("dialogAppWizard", u"Version: 0.0.0", None))
         self.labelNewQuantity.setText(QCoreApplication.translate("dialogAppWizard", u"Quantity: 0", None))
         self.groupBoxProgress.setTitle(QCoreApplication.translate("dialogAppWizard", u"Progress", None))
