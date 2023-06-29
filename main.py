@@ -5,6 +5,7 @@
 import os
 import sys
 import traceback
+import logging
 
 
 from PySide6.QtWidgets import (

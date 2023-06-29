@@ -18,11 +18,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QDialog, QGroupBox, QHBoxLayout,
     QLabel, QProgressBar, QPushButton, QSizePolicy,
     QSpacerItem, QVBoxLayout, QWidget)
-from resources import (
-    buttonsGlassRound_rc,
-    readfiles_rc,
-    png_rc
-)
+import buttonsGlassRound_rc
+import readfiles_rc
+import png_rc
+import buttonsGlassRound_rc
+import readfiles_rc
 
 class Ui_dialogAppWizard(object):
     def setupUi(self, dialogAppWizard):
@@ -48,7 +48,7 @@ class Ui_dialogAppWizard(object):
         self.labelWizardPixmap = QLabel(dialogAppWizard)
         self.labelWizardPixmap.setObjectName(u"labelWizardPixmap")
         self.labelWizardPixmap.setMaximumSize(QSize(96, 96))
-        self.labelWizardPixmap.setPixmap(QPixmap(u":/buttons/glassRound/glassButtonWizard.png"))
+        self.labelWizardPixmap.setPixmap(QPixmap(u":/resources/buttons/glassRound/glassButtonWizard.png"))
         self.labelWizardPixmap.setScaledContents(True)
 
         self.horizontalLayoutHeader.addWidget(self.labelWizardPixmap)
@@ -157,7 +157,7 @@ class Ui_dialogAppWizard(object):
         self.labelFileType = QLabel(dialogAppWizard)
         self.labelFileType.setObjectName(u"labelFileType")
         self.labelFileType.setMaximumSize(QSize(48, 48))
-        self.labelFileType.setPixmap(QPixmap(u":/Images/png/blank.png"))
+        self.labelFileType.setPixmap(QPixmap(u":/resources/Images/png/blank.png"))
 
         self.horizontalLayoutMasterButtons.addWidget(self.labelFileType)
 
@@ -168,7 +168,7 @@ class Ui_dialogAppWizard(object):
         self.pushButtonClose = QPushButton(dialogAppWizard)
         self.pushButtonClose.setObjectName(u"pushButtonClose")
         icon1 = QIcon()
-        icon1.addFile(u":/buttons/glassRound/glassButtonClose.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/resources/buttons/glassRound/glassButtonClose.png", QSize(), QIcon.Normal, QIcon.Off)
         self.pushButtonClose.setIcon(icon1)
         self.pushButtonClose.setIconSize(QSize(28, 28))
         self.pushButtonClose.setAutoDefault(False)
@@ -178,7 +178,7 @@ class Ui_dialogAppWizard(object):
         self.pushButtonStart = QPushButton(dialogAppWizard)
         self.pushButtonStart.setObjectName(u"pushButtonStart")
         icon2 = QIcon()
-        icon2.addFile(u":/buttons/glassRound/glassButtonStart.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/resources/buttons/glassRound/glassButtonStart.png", QSize(), QIcon.Normal, QIcon.Off)
         self.pushButtonStart.setIcon(icon2)
         self.pushButtonStart.setIconSize(QSize(28, 28))
         self.pushButtonStart.setAutoDefault(False)

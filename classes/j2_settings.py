@@ -78,8 +78,8 @@ class J2_Settings:
         temp = Path(self.jSettings.value("Project/Folder", "", str))
         return self.jSettings.value("Project/Folder", "", str) if temp.is_dir() else ""
     
-    def getHeaderQuantity(self) -> int:
-        return self.jSettings.value("Header/Quantity", 0, int)
+    def getHeaderQuantity(self) -> str:
+        return self.jSettings.value("Header/Quantity", 0, str)
     
     def getHeaderDate(self) -> str:
         temp1 = self.jSettings.value("Header/Date", 0, int)
@@ -95,7 +95,7 @@ class J2_Settings:
         tmp = self.jSettings.value("Debug/Status", "", str)
         return tmp.upper()    
 
-    def setHeaderQuantity(self, Quantity: int) -> None:
+    def setHeaderQuantity(self, Quantity: str) -> None:
         self.jSettings.setValue("Header/Quantity", Quantity)
         
     def setHeaderDate(self, JulianDate: int) -> None:

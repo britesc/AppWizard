@@ -1,0 +1,40 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/Images/png/About.png</file>
+        <file>resources/Images/png/Android.png</file>
+        <file>resources/Images/png/Arduino.png</file>
+        <file>resources/Images/png/Bash.png</file>
+        <file>resources/Images/png/C.png</file>
+        <file>resources/Images/png/C++.png</file>
+        <file>resources/Images/png/Cmake.png</file>
+        <file>resources/Images/png/copy.png</file>
+        <file>resources/Images/png/CSS.png</file>
+        <file>resources/Images/png/Doxygen.png</file>
+        <file>resources/Images/png/exit.png</file>
+        <file>resources/Images/png/git.png</file>
+        <file>resources/Images/png/github.png</file>
+        <file>resources/Images/png/grafviz.png</file>
+        <file>resources/Images/png/help.png</file>
+        <file>resources/Images/png/html.png</file>
+        <file>resources/Images/png/images.png</file>
+        <file>resources/Images/png/iOS.png</file>
+        <file>resources/Images/png/java.png</file>
+        <file>resources/Images/png/kotlin.png</file>
+        <file>resources/Images/png/list.png</file>
+        <file>resources/Images/png/load.png</file>
+        <file>resources/Images/png/mysql.png</file>
+        <file>resources/Images/png/paste.png</file>
+        <file>resources/Images/png/php.png</file>
+        <file>resources/Images/png/postgres.png</file>
+        <file>resources/Images/png/projectionist.png</file>
+        <file>resources/Images/png/Pythom.png</file>
+        <file>resources/Images/png/qt.png</file>
+        <file>resources/Images/png/QtAbout.png</file>
+        <file>resources/Images/png/reset.png</file>
+        <file>resources/Images/png/sqllite.png</file>
+        <file>resources/Images/png/undo.png</file>
+        <file>resources/Images/png/vscode.png</file>
+        <file>resources/Images/png/write.png</file>
+        <file>resources/Images/png/www.png</file>
+    </qresource>
+</RCC>
