@@ -9,6 +9,8 @@ import subprocess
 
 import logging
 
+import datetime
+
 from PySide6.QtWidgets import (
     QDialog,
     QFileDialog,
@@ -37,37 +39,13 @@ from wizards.appwizard_ui import (
     Ui_dialogAppWizard   
 )
 
-import readfiles_rc
+import readfiles_rc # type: ignore
 
 
 class AppWizard(QDialog, Ui_dialogAppWizard):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self) # type: ignore
-        self.debugstatus = logging.NOTSET
-        self.logging = logging.basicConfig(
-            filename='appwizard.log',
-            encoding='utf-8',
-            level=self.debugstatus,
-            format='%(asctime)s %(name)s %(levelname)s: %(message)s',
-            datefmt='%d/%m/%Y %H:%M:%S'
-        )        
-
-        self.j2_settings = j2_settings.J2_Settings()
-        self.debugstatus = self.j2_settings.getDebugStatus()
-        logging.getLogger().setLevel(self.debugstatus)
-        
-        
-
-        self.HeaderKey = 'applications'
-        self.AppsKey = 'apps'
-        self.AdapterErrorCode = 0
-        self.tablename = "Apps"
-        self.database = SqliteDict(
-            'projectionist.db',
-            tablename=self.tablename,
-            autocommit=True
-        )    
 
         self.setWindowTitle("Applications Wizard")
         self.pushButtonClose.setEnabled(True)
@@ -75,6 +53,13 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
         self.pushButtonClose.clicked.connect(self.closeApp) # type: ignore
         self.pushButtonStart.clicked.connect(self.startApp) # type: ignore
+        
+        self.setupLogging()
+
+        self.setupDatabase()
+
+
+        
         self.progressBarApplications.setMinimum(0)
         self.progressBarCounter=0
         self.labelStatus.setText("Waiting...")
@@ -108,7 +93,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             self.adapterJson
         ]        
         #pz  = QFileDialog.getOpenFileName(
-        self.fileName = QFileDialog.getOpenFileName(                
+        self.fileName = QFileDialog.getOpenFileName(     # type: ignore
             self, 
             "Open File",
             "/home",
@@ -284,7 +269,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         logging.debug("parseConfig Called")
         self.progressBarApplications.setMinimum(0)
         self.progressBarCounter=0
-        self.progressBarApplications.setMaximum(self.NewQuantity)
+        self.progressBarApplications.setMaximum(self.NewQuantity) # type: ignore
 
         self.ActivityResult = False
         self.pushButtonClose.setEnabled(False)
@@ -344,7 +329,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                     'version': vVersion,
                     'type': vType
                 }
-                self.database.commit()
+                self.database.commit() # type: ignore
                 
                 self.databaseSize = str(len(self.database))
 
@@ -361,9 +346,9 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
 
         except(subprocess.CalledProcessError):
-            vRequest = f"killall {vAppReal}"
+            vRequest = f"killall {vAppReal}" # type: ignore
             logging.error(f"parseConfig: Exception: {vRequest}")            
-            logging.error(f'parseConfig: Exception: {str(err)}')
+            logging.error(f'parseConfig: Exception: {str(err)}') 
             logging.error("Exception occurred", exc_info=True)
 
             process = subprocess.run(
@@ -380,7 +365,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         except Exception as err:
             logging.error(f'parseConfig: Exception: {str(err)}')
             logging.error("Exception occurred", exc_info=True)
-            vRequest = f"killall {vAppReal}"
+            vRequest = f"killall {vAppReal}"# type: ignore
             logging.debug(f"{vRequest}")            
             err.discard()            # type: ignore
             
@@ -402,13 +387,11 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 #            time.sleep(1)
 
             if self.ActivityResult:
-                self.database.close()
+                self.database.close() # type: ignore
                 
                 self.normaliseWizard()
                 
-            return self.ActivityResult                
-                    
-                
+            return self.ActivityResult                                    
                 
                 
     def normaliseWizard(self) -> None:
@@ -453,10 +436,53 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         logging.info(f"There are now {self.currentQuantity} items in the database")     
 
 
-                
-                
+    def setupLogging(self) -> None:
+        self.debugstatus = logging.NOTSET
+        self.logdate = datetime.date.today()
+        self.logfilename = f"appwizard.{self.logdate}.log"
+        self.logging = logging.basicConfig(
+            filename=self.logfilename,
+            encoding='utf-8',
+            level=self.debugstatus,
+            format='%(asctime)s %(name)s %(levelname)s: %(module)s-%(funcName)s-%(lineno)s %(message)s',
+            datefmt='%d/%m/%Y %H:%M:%S'
+        )        
 
+        self.j2_settings = j2_settings.J2_Settings()
+        self.debugstatus = self.j2_settings.getDebugStatus()
+        logging.getLogger().setLevel(self.debugstatus)
+        logging.debug(f"Logging Enabled - {self.debugstatus}")
                 
+    def setupDatabase(self) -> None:
+        self.databaseName = 'projectionist.db'
+        self.HeaderKey = 'applications'
+        self.AppsKey = 'apps'
+        self.AdapterErrorCode = 0
+        self.tablename = "Apps"
+        self.database = SqliteDict(
+            self.databaseName,
+            tablename=self.tablename,
+            autocommit=True
+        )
+        self.databaseRecords = len(self.databaseName) 
+        logging.debug(f"SqliteDict Database Enabled - {self.debugstatus}")
+                    
+    def setupWizardDisplay(self) -> None:
+        self.progressBarApplications.setMinimum(0)
+        self.progressBarCounter=0
+        self.labelStatus.setText("Waiting...")
+        self.currentDate =  f"Date: {self.j2_settings.getHeaderDate()}"
+        self.labelCurrentDate.setText(self.currentDate)
+        self.currentVersion = f"Version: {self.j2_settings.getHeaderVersion()}"
+        self.labelCurrentVersion.setText(self.currentVersion)
+        self.currentQuantity = f"Quantity: {self.j2_settings.getHeaderQuantity()}"
+        self.labelCurrentQuantity.setText(self.currentQuantity)
+        self.key1 = 'applications'
+        self.key2 = 'apps'
+        self.ActivityResult = False
+        self.fileName = ()
+        logging.debug(f"Initial Display Enabled - {self.debugstatus}")
+                    
                 
                 
                 

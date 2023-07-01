@@ -20,7 +20,7 @@ from wizards import appwizard
 def SetupApp() -> None:
     global vApplicationName
     vApplicationName = os.path.splitext(os.path.basename(__file__))[0]
-    basedir = os.path.dirname(__file__)
+    basedir = os.path.dirname(__file__)# type: ignore
     # print("Current working folder: ", os.getcwd())
     # print("Paths are relative to: ", basedir)
     # print("Application Name: ", vApplicationName)
@@ -36,7 +36,7 @@ def Main() -> None:
         window.show()
         
     
-    except Exception as err:
+    except Exception as err: # type: ignore
 #         print(f"Unfortunately {vApplicationName} has encountered an error \
 # and is unable to continue.")
 #         print(f"Exception {err=}, {type(err)=}")
@@ -44,7 +44,7 @@ def Main() -> None:
         traceback.print_exception() # type: ignore
 
     finally:
-        sys.exit(app.exec())
+        sys.exit(app.exec()) # type: ignore
 
 
 class MainWindow(QMainWindow):
@@ -60,6 +60,7 @@ class MainWindow(QMainWindow):
         self.button.clicked.connect(self.button_was_clicked) # type: ignore
         
         self.setFixedSize(300, 200)
+        
         
 
         
