@@ -5,9 +5,10 @@
 # TODO Move all .qrc files to resources folder adjusting as necessary
 
 import subprocess
-
+import atexit
 import logging
 
+import time
 import datetime
 
 from PySide6.QtWidgets import (
@@ -374,10 +375,6 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         finally:
             QApplication.processEvents()
             logging.debug(f"parseConfig = {self.ActivityResult}")
-#            time.sleep(1)
-
-            if self.ActivityResult:
-                self.database.close()  # type: ignore
 
             self.setupWizardDisplay(True)
 
@@ -391,15 +388,16 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             filename=self.logfilename,
             encoding='utf-8',
             level=self.debugstatus,
-            format='%(asctime)s %(name)s %(levelname)s: %(module)s-%(funcName)s-%(lineno)s %(message)s',
+            format='%(asctime)s %(name)s %(levelname)s: %(module)s %(funcName)s: %(lineno)s %(message)s',
             datefmt='%d/%m/%Y %H:%M:%S'
         )
 
         self.j2_settings = j2_settings.J2_Settings()
         self.debugstatus = self.j2_settings.getDebugStatus()
         logging.getLogger().setLevel(self.debugstatus)
-        logging.debug(f"Logging Enabled - {self.debugstatus}")
-
+        logging.debug("Logging Enabled")
+        logging.debug(f"Logging Status: {self.debugstatus}")
+        
     def setupDatabase(self) -> None:
         self.databaseName = 'projectionist.db'
         self.AdapterErrorCode = 0
@@ -417,40 +415,61 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
         self.progressBarApplications.setMinimum(0)
         self.progressBarCounter = 0
         self.labelStatus.setText("Waiting...")
-        
-        # Date
-        self.currentDate = f"Date: {self.j2_settings.getHeaderDate()}"
-        self.labelCurrentDate.setText(self.currentDate)
-        if self.displaystatus:
-            self.j2_settings.setHeaderDate(self.NewJulianDate)
-            self.currentDate = self.NewDate
-            self.labelCurrentDate.setText(f"Date: {self.currentDate}")
-            self.NewDate = ""
-            self.labelNewDate.setText("Date: None")        
-                
-        QApplication.processEvents()
-        
+
+        # Date        
+        try:
+            self.currentDate = f"Date: {self.j2_settings.getHeaderDate()}"
+            self.labelCurrentDate.setText(self.currentDate)
+            if self.displaystatus:
+                self.j2_settings.setHeaderDate(self.NewJulianDate)
+                self.currentDate = self.NewDate
+                self.labelCurrentDate.setText(f"Date: {self.currentDate}")
+                self.NewDate = ""
+                self.labelNewDate.setText("Date: None")        
+        except Exception as err:
+            logging.error(f'Exception: {str(err)}')
+            logging.error("Exception:", exc_info=True)            
+            err.discard()            # type: ignore
+        finally:            
+            QApplication.processEvents()
+
+
         # Version
-        self.currentVersion = f"Version: {self.j2_settings.getHeaderVersion()}"
-        self.labelCurrentVersion.setText(self.currentVersion)
-        if self.displaystatus:
-            self.j2_settings.setHeaderVersion(self.NewVersion)
-            self.currentVersion = self.NewVersion
-            self.labelCurrentVersion.setText(f"Version: {self.currentVersion}")
-            self.NewVersion = ""
-            self.labelNewVersion.setText("Version: 0.0.0")            
-        
-        QApplication.processEvents()
-        
+        try:
+            self.currentVersion = f"Version: {self.j2_settings.getHeaderVersion()}"
+            self.labelCurrentVersion.setText(self.currentVersion)
+            if self.displaystatus:
+                self.j2_settings.setHeaderVersion(self.NewVersion)
+                self.currentVersion = self.NewVersion
+                self.labelCurrentVersion.setText(f"Version: {self.currentVersion}")
+                self.NewVersion = ""
+                self.labelNewVersion.setText("Version: 0.0.0")                    
+        except Exception as err:
+            logging.error(f'Exception: {str(err)}')
+            logging.error("Exception:", exc_info=True)            
+            err.discard()            # type: ignore
+        finally:            
+            QApplication.processEvents()
+
+
+
         # Quantity
-        self.currentQuantity = f"Quantity: {self.databaseRecords}"
-        self.labelCurrentQuantity.setText(self.currentQuantity)
-        if self.displaystatus:
-            self.NewQuantity = ""
-            self.labelNewQuantity.setText("Quantity: 0")            
-        
-        QApplication.processEvents()
-        
+        try:
+            self.database.commit()  # type: ignore 
+            QApplication.processEvents()  
+            time.sleep(2)             
+            self.databaseSize = str(len(self.database))
+            self.currentQuantity = f"Quantity: {self.databaseSize}"
+            self.labelCurrentQuantity.setText(self.currentQuantity)
+        except Exception as err:
+            logging.error(f'Exception: {str(err)}')
+            logging.error("Exception:", exc_info=True)
+        finally:            
+            if self.displaystatus:
+                self.NewQuantity = ""
+                self.labelNewQuantity.setText("Quantity: 0")            
+            QApplication.processEvents()
+
         # Other
         self.labelFileType.setPixmap(
             QPixmap(u":/resources/Images/png/blank.png"))
@@ -459,13 +478,11 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             self.labelStatus.setText("Completed")
             self.progressBarApplications.setValue(0)
             self.pushButtonClose.setEnabled(True)            
-            logging.debug(f"Re-initialised Display Enabled - {self.debugstatus}")
+            logging.debug("Re-initialised Display Enabled")
         else:        
-            logging.debug(f"Initial Display Enabled - {self.debugstatus}")
-    
+            logging.debug("Initial Display Enabled")
+
         QApplication.processEvents()
-
-
 
 
 
