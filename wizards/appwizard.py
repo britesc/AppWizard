@@ -5,7 +5,7 @@
 # TODO Move all .qrc files to resources folder adjusting as necessary
 
 import subprocess
-import atexit
+
 import logging
 
 import time
@@ -39,8 +39,7 @@ from wizards.appwizard_ui import (
     Ui_dialogAppWizard
 )
 
-import readfiles_rc  # type: ignore
-
+import readfiles_rc   # type: ignore
 
 class AppWizard(QDialog, Ui_dialogAppWizard):
     def __init__(self) -> None:
@@ -78,6 +77,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
     def closeApp(self) -> None:
         self.labelStatus.setText("Waiting...")
+        logging.debug('Closing...')
         self.reject()
 
     def startApp(self) -> None:
@@ -91,7 +91,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             self.adapterYaml,
             self.adapterJson
         ]
-        # pz  = QFileDialog.getOpenFileName(
+
         self.fileName = QFileDialog.getOpenFileName(     # type: ignore
             self,
             "Open File",
@@ -124,27 +124,29 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 adapter = 0
 
         adapterList[adapter]()  # type: ignore
+        
         if not self.ActivityResult:
             return
         self.checkLoadedConfig()
+        
         if not self.ActivityResult:
             return
         self.parseConfig()
 
     def adapterNone(self) -> None:
-        logging.debug('AdapterNone Called')
+        logging.debug('Called')
 
     def adapterToml(self) -> bool:
         import tomli
 
         # Set status to Using TOML Adapter
-        logging.debug('AdapterToml Called')
+        logging.debug('Called')
         self.ActivityResult = False
 
         try:
             with open(self.fileName[0], mode="rb") as self.fp:  # type: ignore
                 self.loadedConfig = tomli.load(self.fp)
-            # self.fp.close()
+
             self.labelFileType.setPixmap(
                 QPixmap(u":/resources/Images/png/toml.png"))
             self.labelFileType.setScaledContents(True)
@@ -153,33 +155,60 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             self.ActivityResult = True
 
         except Exception as err:
-            logging.debug(f'adapterToml Failed: Exception: {str(err)}')
+            logging.debug(f'Exception: {str(err)}')
             logging.error("Exception occurred", exc_info=True)
             self.ActivityResult = False
 
         finally:
-            logging.debug(f"adapterToml = {self.ActivityResult}")
+            logging.debug(f"Loaded {self.ActivityResult}")
             self.fp.close()
-#            time.sleep(1)
+
             return self.ActivityResult
             # We now have the TOML File Loaded
 
-    def adapterYaml(self) -> None:
-        logging.debug("AdapterYaml Called")
+    def adapterYaml(self) -> bool:
+        import oyaml as yaml  # noqa: F401 # type: ignore
+
+        # Set status to Using YAML Adapter
+        logging.debug('Called')
+        self.ActivityResult = False
+
+        try:        
+            with open(self.fileName[0], mode="rb") as self.fp:  # type: ignore
+                self.loadedConfig = yaml.safe_load(self.fp)
+            
+            self.labelFileType.setPixmap(
+                QPixmap(u":/resources/Images/png/yaml.png"))
+            self.labelFileType.setScaledContents(True)
+
+            QApplication.processEvents()
+            self.ActivityResult = True
+
+        except Exception as err:
+            logging.debug(f'Exception: {str(err)}')
+            logging.error("Exception occurred", exc_info=True)
+            self.ActivityResult = False
+
+        finally:
+            logging.debug(f"Loaded {self.ActivityResult}")
+            self.fp.close()
+
+            return self.ActivityResult
+            # We now have the YAML File Loaded
 
     def adapterJson(self) -> None:
-        logging.debug("AdapterJson Called")
+        logging.debug("Called")
 
     def checkLoadedConfig(self) -> bool:  # type: ignore
         # sourcery skip: class-extract-method
         # We need to check it is our file not some other file
         # First we check the length of the dictionary
         # If it is 2 OK else INVALID
-        logging.debug("checkLoadedConfig Called")
+        logging.debug("Called")
         self.ActivityResult = False
         try:
             if len(self.loadedConfig) != 2:  # type: ignore
-                # logging.info status message File Invalid and wait for reselection or close option
+                # logging.info status message File Invalid and wait for reselection or close option  # noqa: E501
                 self.labelStatus.setText("Incorrect File Format")
                 logging.warning('Incorrect File Format')
                 self.t1 = []
@@ -200,8 +229,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
         finally:
             QApplication.processEvents()
-            logging.debug(f"checkLoadedConfig 1 = {self.ActivityResult}")
-#            time.sleep(1)
+            logging.debug(f"1 = {self.ActivityResult}")
             if not self.ActivityResult:
                 return self.ActivityResult
 
@@ -219,8 +247,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
         finally:
             QApplication.processEvents()
-            logging.debug(f"checkLoadedConfig 2 = {self.ActivityResult}")
-#            time.sleep(1)
+            logging.debug(f"2 = {self.ActivityResult}")
             if not self.ActivityResult:
                 return self.ActivityResult
 
@@ -252,12 +279,11 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
         finally:
             QApplication.processEvents()
-            logging.debug(f"checkLoadedConfig 3 = {self.ActivityResult}")
-#            time.sleep(1)
+            logging.debug(f"3 = {self.ActivityResult}")
             return self.ActivityResult
 
     def parseConfig(self) -> bool:
-        logging.debug("parseConfig Called")
+        logging.debug("Called")
         self.progressBarApplications.setMinimum(0)
         self.progressBarCounter = 0
         self.progressBarApplications.setMaximum(
@@ -325,10 +351,6 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
                 self.databaseSize = str(len(self.database))
 
-                # print("")
-                # for key, item in self.database.items():
-                #     print("%s=%s" % (key, item))
-
                 self.progressBarCounter += 1
                 self.progressBarApplications.setValue(self.progressBarCounter)
                 QApplication.processEvents()
@@ -337,10 +359,11 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
                 self.ActivityResult = True
 
         except subprocess.CalledProcessError as err:
+            logging.error(f"Timedout {vAppReal}") # type: ignore
             vRequest = f"killall {vAppReal}"  # type: ignore
-            logging.error(f"parseConfig: Exception: {vRequest}")
-            logging.error(f'parseConfig: Exception: {str(err)}')
-            logging.error(f'parseConfig: Exception: {str(err.returncode)} - {err.returncode}')            
+            logging.error(f"Exception: {vRequest}")
+            logging.error(f'Exception: {str(err)}')
+            logging.error(f'Exception: {str(err.returncode)} - {err.returncode}')   # noqa: E501
             logging.error("Exception occurred", exc_info=True)
 
             process = subprocess.run(
@@ -374,7 +397,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
         finally:
             QApplication.processEvents()
-            logging.debug(f"parseConfig = {self.ActivityResult}")
+            logging.debug(f"{self.ActivityResult}")
 
             self.setupWizardDisplay(True)
 
@@ -388,7 +411,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             filename=self.logfilename,
             encoding='utf-8',
             level=self.debugstatus,
-            format='%(asctime)s %(name)s %(levelname)s: %(module)s %(funcName)s: %(lineno)s %(message)s',
+            format='%(asctime)s %(name)s %(levelname)s: %(module)s %(funcName)s: %(lineno)s %(message)s',  # noqa: E501
             datefmt='%d/%m/%Y %H:%M:%S'
         )
 
@@ -408,7 +431,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             autocommit=True
         )
         self.databaseRecords = len(self.databaseName)
-        logging.debug(f"SqliteDict Database Enabled - {self.debugstatus}")
+        logging.debug("SqliteDict Database Enabled")
 
     def setupWizardDisplay(self, displaystatus: bool) -> None:
         self.displaystatus = displaystatus
