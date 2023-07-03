@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-
 import os
 import sys
 import traceback
-import logging
-
 
 from PySide6.QtWidgets import (
     QApplication,
@@ -15,7 +12,6 @@ from PySide6.QtWidgets import (
 )    
 
 from wizards import appwizard
-
 
 def SetupApp() -> None:
     global vApplicationName
@@ -46,7 +42,6 @@ def Main() -> None:
     finally:
         sys.exit(app.exec()) # type: ignore
 
-
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
@@ -60,9 +55,7 @@ class MainWindow(QMainWindow):
         self.button.clicked.connect(self.button_was_clicked) # type: ignore
         
         self.setFixedSize(300, 200)
-        
-        
-
+                
         
     def button_was_clicked(self) -> None:
         # print("Button was Clicked")

@@ -136,7 +136,7 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
     def adapterNone(self) -> None:
         logging.debug('Called')
 
-    def adapterToml(self) -> bool:
+    def adapterToml(self) -> bool:  # sourcery skip: class-extract-method
         import tomli
 
         # Set status to Using TOML Adapter
@@ -196,8 +196,35 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
             return self.ActivityResult
             # We now have the YAML File Loaded
 
-    def adapterJson(self) -> None:
-        logging.debug("Called")
+    def adapterJson(self) -> bool:
+        import json
+
+        # Set status to Using JSON Adapter
+        logging.debug('Called')
+        self.ActivityResult = False
+
+        try:        
+            with open(self.fileName[0], mode="rb") as self.fp:  # type: ignore
+                self.loadedConfig =json.load(self.fp)
+
+            self.labelFileType.setPixmap(
+                QPixmap(u":/resources/Images/png/json.png"))
+            self.labelFileType.setScaledContents(True)
+
+            QApplication.processEvents()
+            self.ActivityResult = True
+
+        except Exception as err:
+            logging.debug(f'Exception: {str(err)}')
+            logging.error("Exception occurred", exc_info=True)
+            self.ActivityResult = False
+
+        finally:
+            logging.debug(f"Loaded {self.ActivityResult}")
+            self.fp.close()
+
+            return self.ActivityResult
+            # We now have the JSON File Loaded
 
     def checkLoadedConfig(self) -> bool:  # type: ignore
         # sourcery skip: class-extract-method
@@ -507,116 +534,3 @@ class AppWizard(QDialog, Ui_dialogAppWizard):
 
         QApplication.processEvents()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    """
-
-        logging.info.(self.loadedConfig)  
-
-        logging.info("Debug Point 1 - len(self.loadedConfig)")
-        logging.info(len(self.loadedConfig),end='\n\n')
-
-
-        logging.info("Debug Point 2 - self.loadedConfig['applications']")
-        logging.info(self.loadedConfig['applications'],end='\n\n') 
-
-
-        logging.info("Debug Point 3 - t1 = self.loadedConfig['applications']")
-        t1 = self.loadedConfig['applications']
-        logging.info(len(t1))
-        plogging.info.plogging.info(t1)
-        logging.info("")
-
-
-        logging.info("Debug Point 4 - x = self.loadedConfig.keys()")
-        x = self.loadedConfig.keys()
-        logging.info(x,end='\n\n')    
-
-
-        logging.info("Debug Point 5 - key1 = list(self.loadedConfig.keys())[0]")
-        key1 = self._extracted_from_adapterToml_58(
-            0, "Debug Point 6 - key2 = list(self.loadedConfig.keys())[1]"
-        )
-        key2 = self._extracted_from_adapterToml_58(
-            1, "Debug Point 2b - self.loadedConfig[key1]"
-        )
-        logging.info(self.loadedConfig[key1],end='\n\n')  
-
-
-        logging.info("Debug Point 3b - t2 = len(self.loadedConfig[key1]")
-        t2 = len(self.loadedConfig[key1])
-        logging.info(t2,end='\n\n')          
-
-        logging.info("Debug Point 7 - td1 = self.loadedConfig[key1]")
-        td1 = self.loadedConfig[key1]
-        plogging.info.plogging.info(td1)
-        logging.info("")
-
-        logging.info("Debug Point 8 - t3 = len(td1)")
-        t3 = len(td1)
-        logging.info(t3,end='\n\n')
-
-        self._extracted_from_adapterToml_84(
-            "Debug Point 9 - td1[0]['date']", td1, 'date', 'version'
-        )
-        logging.info("")
-
-        logging.info("Debug Point 3c - t2 = len(self.loadedConfig[key2]")
-        t2 = len(self.loadedConfig[key2])
-        logging.info(t2,end='\n\n')           
-
-        logging.info("Debug Point 7a - td1 = self.loadedConfig[key2]")
-        td1 = self.loadedConfig[key2]
-        plogging.info.plogging.info(td1)
-        logging.info("")
-
-        logging.info("Debug Point 8a - t3 = len(td1)")
-        logging.info(len(td1), end='\n\n')   
-
-        self._extracted_from_adapterToml_84(
-            "Debug Point 9a - td1[0]['AppAlias']", td1, 'AppAlias', 'AppReal'
-        )
-        logging.info(td1[0]['AppVerGet'])
-        logging.info(td1[0]['RegexEnd'])
-        logging.info(td1[0]['RegexStart'])
-        logging.info(td1[0]['Type'])
-        logging.info("")             
-
-    # TODO Rename this here and in `adapterToml`
-    def _extracted_from_adapterToml_84(self, arg0, td1, arg2, arg3):
-        logging.info(arg0)
-        logging.info(td1[0][arg2])
-        logging.info(td1[0][arg3])             
-
-    # TODO Rename this here and in `adapterToml`
-    def _extracted_from_adapterToml_58(self, arg0, arg1):
-        self.ActivityResult = list(self.loadedConfig.keys())[arg0]
-        logging.info(self.ActivityResult, end='\n\n')
-
-
-        logging.info(arg1)
-        return self.ActivityResult             
-        
-        # key3 = self.loadedConfig.keys()
-        
-        # logging.info(key3)
-        # for key in self.loadedConfig.keys():
-        #     logging.info(key, '->', self.loadedConfig[key])
-
-    """
